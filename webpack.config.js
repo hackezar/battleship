@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Below requires the plugins to minimize css
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,16 +13,20 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
+
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: 'Output Management',
     }),
+
   ],
   entry: {
     index: './src/index.js',
+    print: './src/print.js',
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
