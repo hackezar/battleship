@@ -8,7 +8,8 @@
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
     "deploy": "gh-pages -d dist",
-     "watch": "npx webpack --watch"
+    "watch": "npx webpack --watch",
+    "start": "webpack serve --open"
   },
   "keywords": [],
   "author": "",
@@ -25,8 +26,9 @@
     "mini-css-extract-plugin": "^2.7.7",
     "prettier": "3.2.4",
     "style-loader": "^3.3.4",
-    "webpack": "^5.90.0",
+    "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.2",
     "xml-loader": "^1.2.1"
   },
   "dependencies": {

@@ -1,6 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Link to webpack Development page//
+// https://webpack.js.org/guides/development/
+
 // Below requires the plugins to minimize css
 // eslint-disable-next-line import/no-extraneous-dependencies
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -15,7 +18,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      title: 'Output Management',
+      title: 'Development',
     }),
 
   ],
@@ -23,10 +26,17 @@ module.exports = {
     index: './src/index.js',
     print: './src/print.js',
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
   module: {
     rules: [
