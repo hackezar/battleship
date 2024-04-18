@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 // Link to webpack Development page//
 // https://webpack.js.org/guides/development/
@@ -16,24 +16,17 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-
-    new HtmlWebpackPlugin({
-      title: 'Development',
-    }),
-
   ],
   entry: {
     index: './src/index.js',
-    print: './src/print.js',
   },
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
   },
   optimization: {
     runtimeChunk: 'single',
