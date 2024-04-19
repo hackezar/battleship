@@ -26,5 +26,5 @@ test('caesarCipher function that takes a string and a shift factor and returns i
 });
 
 test('Analyze array function that takes an array of numbers and returns and returns an object with the following properties: average, min, max, length', () => {
-    expect(analyzeArray([1, 8, 3, 4, 2, 6])).toBe({average: 4, min: 1, max: 8, length: 6});
+    expect(analyzeArray([1, 8, 3, 4, 2, 6])).toStrictEqual({average: 4, min: 1, max: 8, length: 6});
 })
