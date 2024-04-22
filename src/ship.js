@@ -19,6 +19,14 @@ export function createShip(length) {
     ship.length = length;
     ship.hits = 0;
     ship.sunk = false;
+    if (length == 5)
+        ship.name = 'Aircraft Carrier';
+    else if (length == 4)
+        ship.name = 'Battleship';
+    else if (length == 3)
+        ship.name = 'Submarine';
+    else if (length == 2)
+        ship.name = 'Patrol Boat';
     return ship;
 }
  
@@ -46,29 +54,53 @@ export const gameBoard = {
         }
     },
 
-    placeShip: function(length, player, xStart, yStart) {
+    placeShip: function(length, player, xStart, yStart, orientation) {
+        // Check which player will be placing the ship
         if (player == 'left')
             player = this.leftPlayer;
         else if (player == 'right')
             player = this.rightPlayer;
         else
             console.log('Error Selecting which player the ship will be placed on');
-
-        let startIndex = this.getSquareIndex(xStart, yStart, player);
-        console.log(player);
-        player.board[startIndex].occupied = true;
-        length--;
-        while (length > 1) {
-            yStart = yStart + 1;
-            let nextIndex = this.getSquareIndex(xStart, yStart, player);
-            player.board[nextIndex].occupied = true;
-            length --;
+        let count = length;
+        while (count >= 1) {
+            // Check if the coordinates are on the board
+            if (xStart > 9 || xStart < 0 || yStart > 9 || yStart < 0) {
+                throw new Error('Coordinates are not on board');
+            }
+            // if space is already occupied
+            let squareIndex = this.getSquareIndex(xStart, yStart, player);
+            // if space is already occupied
+            if (player.board[squareIndex].occupied !== false)
+                throw new Error('This space is already occupied by a ship');
+            player.board[squareIndex].occupied = createShip(length);
+            count--;
+            //place ship vertically by adding to yStart
+            if (orientation == 'vert')
+                yStart++;
+            // and vice versa
+            else if (orientation == 'hori')
+                xStart++;
         }
-        yStart = yStart + 1;
-        let lastIndex = this.getSquareIndex(xStart, yStart, player);
-        player.board[lastIndex].occupied = true;
         player.shipsOnBoard++;
+        // Hard fix to name the ships of 2 same lengths
+        let output = player.board.filter(ship => ship.occupied.length == 3);
+        if (output.length == 2)
+            output[1].name = 'Cruiser';
         return this;
+    },
+
+    receiveAttack: function(xCord, yCord, player) {
+        if (player == 'left')
+            player = this.leftPlayer;
+        else if (player == 'right')
+            player == this.rightPlayer;
+        else
+            throw new Error('Problem choosing which player board');
+        let index = this.getSquareIndex(xCord, yCord, player);
+        if (player.board[index].occupied == true)
+
+        return (xCord, yCord);
     }
 }
 
