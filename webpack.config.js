@@ -8,10 +8,21 @@ const path = require('path');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: 'development',
   plugins: [
+    // Homepage for app
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'src/index.html',
+    }),
+    // Actual game page for app
+    new HtmlWebpackPlugin({
+      filename: 'app.html',
+      template: 'src/app.html',
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
@@ -22,7 +33,9 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    static: './dist',
+    port: 3000,
+    hot: true,
+    liveReload: false,
   },
   output: {
     filename: 'bundle.js',

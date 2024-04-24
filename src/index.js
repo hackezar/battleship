@@ -1,7 +1,12 @@
 import _ from "lodash";
+// stylesheets
 import "./style.css";
+import './homePage.css';
 
-import { createBoard, createShip } from "./ship";
+import { createBoard } from "./ship";
+import homepageDom from "./dom";
+// start game function
+import { startGame } from './app';
 
 
 let Gameboard = createBoard();
@@ -13,3 +18,9 @@ Gameboard.placeShip(4, 'left', 8, 4, 'vert', 'Battleship');
 Gameboard.placeShip(3, 'left', 5, 5, 'hori', 'Destroyer');
 Gameboard.placeShip(2, 'left', 0, 6, 'hori', 'Patrol boat');
 console.log(Gameboard);
+
+homepageDom();
+
+// Skips right to the actual game page
+window.location.href = './app.html';
+startGame();

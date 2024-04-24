@@ -90,10 +90,6 @@ export const gameBoard = {
         return this;
     },
 
-    findShip: function(ship) {
-        return 
-    },
-
     receiveAttack: function(xCord, yCord, player) {
         if (player == 'left')
             player = this.leftPlayer;
@@ -112,7 +108,6 @@ export const gameBoard = {
         // No ship in this space
         } else {
             this.missedShots.push([xCord, yCord]);
-            console.log(this.missedShots);
             console.log('Miss!')
             return this;
         }

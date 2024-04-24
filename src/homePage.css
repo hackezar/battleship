@@ -1,0 +1,46 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.radioDiv {
+display: flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+border: 1px solid black;
+margin: 0 1rem;
+padding: 1rem;
+width: 9rem;
+height: 9rem;
+gap: 1rem;
+}
+
+.gameModeDiv {
+    display: flex;
+}
+
+.humanPic {
+height: 3rem;
+}
+.computerPic {
+height: 3rem;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none;
+}
