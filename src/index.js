@@ -5,7 +5,7 @@ import './homePage.css';
 
 import { createBoard } from "./ship.js";
 import {homepageDom, squareEventlistener }from "./dom.js";
-import { buildBoardDom } from "./app.js";
+import { buildHeaderandFooterDom, makeBoardDom } from "./app.js";
 import { createPlayer } from "./player.js";
 
 import { whosTurn } from "./app.js";
@@ -40,7 +40,8 @@ Player2.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
 // Skips right to the actual game page
 function simulatePlayButtonClick(Player1, Player2) {
     document.body.innerHTML = "";
-    buildBoardDom(Player1, Player2);
+    buildHeaderandFooterDom(Player1, Player2);
+    makeBoardDom(whosTurn(Player1, Player2));
 };
 simulatePlayButtonClick(Player1, Player2);
 //

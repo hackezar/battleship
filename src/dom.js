@@ -1,10 +1,13 @@
 // Radio icons
 import HumanPic from './icons/human.svg';
 import ComputerPic from './icons/robot.svg';
-import { whosTurn } from './app';
+import { whosTurn, checkForHitOrMiss } from './app';
+
+// Hit Icon
+import Hit from './icons/nuclear-explosion.png';
 
 // start game function
-import { buildBoardDom } from './app';
+import { buildHeaderandFooterDom, makeBoardDom } from './app';
 
 export function homepageDom() {
     // Add Icon images
@@ -37,8 +40,21 @@ export function homepageDom() {
     })
 }
 
+export function addHitIcon(square) {
+    let newIcon = document.createElement('img');
+    newIcon.classList.add('hitIcon');
+    newIcon.src = Hit;
+    square.appendChild(newIcon);
+}
+
+
+
 export function squareEventlistener(Player1, Player2) {
     console.log(Player1, Player2);
+    let layout = document.getElementById('layout');
+    let clone = layout.cloneNode(true);
+    layout.replaceWith(clone);
+
     for (let i=0; i<10; i++) {
         for (let j=0; j<10; j++) {
             if (Player1.turn == true) {
@@ -47,8 +63,7 @@ export function squareEventlistener(Player1, Player2) {
                     Player2.turn = true;
                     Player1.turn = false;
                     whosTurn(Player1, Player2);
-                    console.log(Player1.board.missedShots, Player2.board.missedShots);
-                    console.log(Player1.turn, Player2.turn);
+                    makeBoardDom(Player2);
                     squareEventlistener(Player1, Player2);
                 })
             } else if (Player2.turn == true) {
@@ -57,8 +72,7 @@ export function squareEventlistener(Player1, Player2) {
                     Player1.turn = true;
                     Player2.turn = false;
                     whosTurn(Player1, Player2);
-                    console.log(Player1, Player2);
-                    console.log(Player1.turn, Player2.turn);
+                    makeBoardDom(Player1);
                     squareEventlistener(Player1, Player2);
                 });
             } else {
@@ -67,3 +81,4 @@ export function squareEventlistener(Player1, Player2) {
         }
     }
 }   
+

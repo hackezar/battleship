@@ -1,4 +1,8 @@
-export function buildBoardDom(Player1, Player2) {
+import { addHitIcon } from "./dom";
+
+import Hit from './icons/nuclear-explosion.png';
+
+export function buildHeaderandFooterDom(Player1, Player2) {
     // layout
     let layout = document.createElement('div');
     layout.setAttribute('id', 'layout');
@@ -23,8 +27,36 @@ export function buildBoardDom(Player1, Player2) {
     let container = document.createElement('div');
     container.setAttribute('id', 'boardContainer');
     layout.appendChild(container);
-    container = document.getElementById('boardContainer');
-    
+
+    // footer
+    let footer = document.createElement('div');
+    let turnOutput = document.createElement('div');
+    turnOutput.setAttribute('id', 'turnOutput');
+    footer.setAttribute('id', 'footer');
+    footer.appendChild(turnOutput);
+    layout.appendChild(footer);
+}
+
+export function checkForHitOrMiss(Player) {
+    console.log(Player);
+    for (let i=0; i<Player.board.board.length; i++) {
+        for (let j=0; j<Player.board.hitShots.length; j++)
+        if (Player.board.board[i].x == Player.board.hitShots[j][0] && Player.board.board[i].y == Player.board.hitShots[j][1]) {
+            let squareX = Player.board.board[i].x;
+            let squareY = Player.board.board[i].y;
+            let square = document.getElementById(`${squareX}, ${squareY}`);
+            let hitIcon = Hit;
+            let newIcon = document.createElement('img');
+            newIcon.src = hitIcon;
+            newIcon.classList.add('hitIcon');
+            square.appendChild(newIcon);
+        }
+    }  
+};
+
+export function makeBoardDom(Player) {
+    let container = document.getElementById('boardContainer');
+    container.innerHTML = "";
     for (let i=0; i< 10; i++) {
         for (let j=0; j<10; j++) {
             const node = document.createElement('div');
@@ -34,14 +66,7 @@ export function buildBoardDom(Player1, Player2) {
             container.appendChild(node);
         }
     }
-
-    // footer
-    let footer = document.createElement('div');
-    let turnOutput = document.createElement('div');
-    turnOutput.setAttribute('id', 'turnOutput');
-    footer.setAttribute('id', 'footer');
-    footer.appendChild(turnOutput);
-    layout.appendChild(footer);
+    checkForHitOrMiss(Player);
 }
 
 export function whosTurn(Player1, Player2) {
@@ -61,7 +86,7 @@ export function whosTurn(Player1, Player2) {
             document.getElementById('player1score').classList.add('yourTurn');
             document.getElementById('player2score').classList.remove('yourTurn');
             document.getElementById('turnOutput').innerHTML = `${Player1.name}'s Turn! Make your pick.`
-            return Player1, Player2
+            return Player1
         }
         else if (random == 1) {
             Player2.turn = true;
@@ -69,7 +94,7 @@ export function whosTurn(Player1, Player2) {
             document.getElementById('player2score').classList.add('yourTurn');
             document.getElementById('player1score').classList.remove('yourTurn');
             document.getElementById('turnOutput').innerHTML = `${Player2.name}'s Turn! Make your pick.`
-            return Player1, Player2
+            return Player2
         }
     }
 }

@@ -27,11 +27,17 @@ export const gameBoard = {
         this.gameOver = false;
         this.missedShots = [];
         this.hitShots = [];
-        this.board = [];
         this.shipsOnBoard = [];
-        for (let i=0; i<10; i++){
-            for(let j=0; j<10; j++){
-                this.board.push({cord: [i, j], occupied: false});
+        this.board = new Array();
+        class coordinate {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+        }
+        for (let x=0; x<10; x++){
+            for (let y=0; y<10; y++) {
+                this.board.push(new coordinate(x, y));
             }
         }
         return this;
@@ -43,7 +49,7 @@ export const gameBoard = {
 
     getSquareIndex: function(xCord, yCord) {
         for(let i=0; i<this.board.length; i++) {
-            if (this.board[i].cord[0] == xCord && this.board[i].cord[1] == yCord)
+            if (this.board[i].x == xCord && this.board[i].y == yCord)
                 return this.board.indexOf(this.board[i]);
         }
     },
@@ -76,6 +82,7 @@ export const gameBoard = {
         let index = this.getSquareIndex(xCord, yCord);
         // Ship is in this space
         if (this.board[index].occupied !== false){
+            AttackingPlayer.board.hitShots.push([xCord, yCord]);
             let ship = this.board[index].occupied;
             ship.isSunk();
             console.log('Hit!');
