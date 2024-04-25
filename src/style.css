@@ -26,12 +26,19 @@ html {
 #footer {
   height: 10vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+
+}
+
+.footerMessage {
+  font-size: 2rem;
 }
 
 #turnOutput {
-  font-size: 2rem;
+
 }
 
 #boardContainer {

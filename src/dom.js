@@ -5,6 +5,8 @@ import { whosTurn, checkForHitOrMiss } from './app';
 
 // Hit Icon
 import Hit from './icons/nuclear-explosion.png';
+// Miss icon
+import Miss from './icons/water-splash.png';
 
 // start game function
 import { buildHeaderandFooterDom, makeBoardDom } from './app';
@@ -81,4 +83,10 @@ export function squareEventlistener(Player1, Player2) {
         }
     }
 }   
+
+export function displayHitOrMiss(xCord, yCord, Player, winLossMessage) {
+    let textBox = document.getElementById('turnMessage');
+    textBox.innerHTML = "";
+    textBox.innerHTML = `${Player.name} attacks ${xCord}, ${yCord} ${winLossMessage}`;
+}
 

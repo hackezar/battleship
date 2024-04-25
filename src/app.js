@@ -1,6 +1,8 @@
 import { addHitIcon } from "./dom";
 
+
 import Hit from './icons/nuclear-explosion.png';
+import Miss from './icons/water-splash.png';
 
 export function buildHeaderandFooterDom(Player1, Player2) {
     // layout
@@ -30,9 +32,16 @@ export function buildHeaderandFooterDom(Player1, Player2) {
 
     // footer
     let footer = document.createElement('div');
+    footer.setAttribute('id', 'footer');
+    // turn message
+    let turnMessage = document.createElement('div');
+    turnMessage.setAttribute('id', 'turnMessage');
+    turnMessage.classList.add('footerMessage');
+    footer.appendChild(turnMessage);
+    // previous move message
     let turnOutput = document.createElement('div');
     turnOutput.setAttribute('id', 'turnOutput');
-    footer.setAttribute('id', 'footer');
+    turnOutput.classList.add('footerMessage');
     footer.appendChild(turnOutput);
     layout.appendChild(footer);
 }
@@ -45,12 +54,26 @@ export function checkForHitOrMiss(Player) {
             let squareX = Player.board.board[i].x;
             let squareY = Player.board.board[i].y;
             let square = document.getElementById(`${squareX}, ${squareY}`);
+            square.innerHTML = "";
             let hitIcon = Hit;
             let newIcon = document.createElement('img');
             newIcon.src = hitIcon;
             newIcon.classList.add('hitIcon');
             square.appendChild(newIcon);
         }
+        for (let j = 0; j<Player.board.missedShots.length; j++) {
+            if (Player.board.board[i].x == Player.board.missedShots[j][0] && Player.board.board[i].y == Player.board.missedShots[j][1]) {
+                let squareX = Player.board.board[i].x;
+                let squareY = Player.board.board[i].y;
+                let square = document.getElementById(`${squareX}, ${squareY}`);
+                square.innerHTML = "";
+                let missIcon = Miss;
+                let newIcon = document.createElement('img');
+                newIcon.src = missIcon;
+                newIcon.classList.add('hitIcon');
+                square.appendChild(newIcon);
+            }
+        } 
     }  
 };
 
@@ -62,6 +85,7 @@ export function makeBoardDom(Player) {
             const node = document.createElement('div');
             node.classList.add('grid-cell');
             node.setAttribute('id', `${i}, ${j}`);
+            node.innerHTML = `${i} , ${j}`
             // event listener for square
             container.appendChild(node);
         }

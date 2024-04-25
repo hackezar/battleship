@@ -1,4 +1,6 @@
-    // Creating ship object
+import { displayHitOrMiss } from "./dom";
+
+// Creating ship object
 export const shipProto = {
 
     isSunk: function() {
@@ -33,6 +35,7 @@ export const gameBoard = {
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
+                this.occupied = false;
             }
         }
         for (let x=0; x<10; x++){
@@ -48,9 +51,9 @@ export const gameBoard = {
     },
 
     getSquareIndex: function(xCord, yCord) {
-        for(let i=0; i<this.board.length; i++) {
+        for (let i=0; i<this.board.length; i++){
             if (this.board[i].x == xCord && this.board[i].y == yCord)
-                return this.board.indexOf(this.board[i]);
+                return i;
         }
     },
 
@@ -83,14 +86,14 @@ export const gameBoard = {
         // Ship is in this space
         if (this.board[index].occupied !== false){
             AttackingPlayer.board.hitShots.push([xCord, yCord]);
+            displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and hits!');
             let ship = this.board[index].occupied;
             ship.isSunk();
-            console.log('Hit!');
             return this;
         // No ship in this space
         } else {
             AttackingPlayer.board.missedShots.push([xCord, yCord]);
-            console.log('Miss!')
+            displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and misses!');
             return AttackingPlayer;
         }
     },

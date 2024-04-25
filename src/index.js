@@ -30,7 +30,7 @@ Player1.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
 
 // player2
 Gameboard2.createSquares();
-let Player2 = createPlayer('human', 'Jim Bob');
+let Player2 = createPlayer('computer', 'Mr. Roboto');
 Player2.board.placeShip(3, 2, 2, 'vert', 'Submarine');
 Player2.board.placeShip(5, 0, 9, 'hori', 'Aircraft Carrier');
 Player2.board.placeShip(4, 8, 4, 'vert', 'Battleship');
