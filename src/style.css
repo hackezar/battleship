@@ -1,7 +1,62 @@
-body {
-margin: 0;
-padding: 0;
-height: 100vh;
-width: 100vw;
+body,
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100v;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 15vh;
+}
+
+.scoreHeader {
+  font-size: 2rem;
+}
+
+#footer {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#turnOutput {
+  font-size: 2rem;
+}
+
+#boardContainer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, calc((100% - 10px) / 10));
+  grid-template-rows: repeat(10, calc((100% - 10px) / 10));
+  border: solid 1px black;
+  background-color: black;
+  gap: 1px;
+}
+
+.grid-cell {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-cell:hover {
+  cursor: pointer;
+}
+
+.yourTurn {
+  border: 1px solid black;
+  padding: 2rem;
 }
 

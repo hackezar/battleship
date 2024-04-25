@@ -1,8 +1,6 @@
     // Creating ship object
 export const shipProto = {
-    shipHit: function() {
-        return this.hits++;
-    },
+
     isSunk: function() {
         if (this.length <= this.hits)
             return this.sunk = true;
@@ -26,18 +24,14 @@ export function createShip(length, title) {
 // Gameboard object
 export const gameBoard = {
     createSquares: function() {
+        this.gameOver = false;
         this.missedShots = [];
         this.hitShots = [];
-        this.leftPlayer = new Object;
-        this.rightPlayer = new Object;
-        this.leftPlayer.board = [];
-        this.rightPlayer.board = [];
-        this.leftPlayer.shipsOnBoard = [];
-        this.rightPlayer.shipsOnBoard = [];
+        this.board = [];
+        this.shipsOnBoard = [];
         for (let i=0; i<10; i++){
             for(let j=0; j<10; j++){
-                this.leftPlayer.board.push({cord: [i, j], occupied: false});
-                this.rightPlayer.board.push({cord: [i, j], occupied: false});
+                this.board.push({cord: [i, j], occupied: false});
             }
         }
         return this;
@@ -47,33 +41,25 @@ export const gameBoard = {
         delete this
     },
 
-    getSquareIndex: function(xCord, yCord, player) {
-        for(let i=0; i<player.board.length; i++) {
-            if (player.board[i].cord[0] == xCord && player.board[i].cord[1] == yCord)
-                return player.board.indexOf(player.board[i]);
+    getSquareIndex: function(xCord, yCord) {
+        for(let i=0; i<this.board.length; i++) {
+            if (this.board[i].cord[0] == xCord && this.board[i].cord[1] == yCord)
+                return this.board.indexOf(this.board[i]);
         }
     },
 
-    placeShip: function(length, player, xStart, yStart, orientation, title) {
-        // Check which player will be placing the ship
-        if (player == 'left')
-            player = this.leftPlayer;
-        else if (player == 'right')
-            player = this.rightPlayer;
-        else
-            console.log('Error Selecting which player the ship will be placed on');
+    placeShip: function(length, xStart, yStart, orientation, title) {
         let count = length;
         while (count >= 1) {
             // Check if the coordinates are on the board
             if (xStart > 9 || xStart < 0 || yStart > 9 || yStart < 0) {
                 throw new Error('Coordinates are not on board');
             }
+            let squareIndex = this.getSquareIndex(xStart, yStart);
             // if space is already occupied
-            let squareIndex = this.getSquareIndex(xStart, yStart, player);
-            // if space is already occupied
-            if (player.board[squareIndex].occupied !== false)
+            if (this.board[squareIndex].occupied == true)
                 throw new Error('This space is already occupied by a ship');
-            player.board[squareIndex].occupied = createShip(length, title);
+            this.board[squareIndex].occupied = createShip(length, title);
             count--;
             //place ship vertically by adding to yStart
             if (orientation == 'vert')
@@ -82,34 +68,23 @@ export const gameBoard = {
             else if (orientation == 'hori')
                 xStart++;
         }
-        player.shipsOnBoard.push(createShip(length, title));
-        // Hard fix to name the ships of 2 same lengths
-        let output = player.board.filter(ship => ship.occupied.length == 3);
-        if (output.length == 2)
-            output[1].name = 'Cruiser';
+        this.shipsOnBoard.push(createShip(length, title));
         return this;
     },
 
-    receiveAttack: function(xCord, yCord, player) {
-        if (player == 'left')
-            player = this.leftPlayer;
-        else if (player == 'right')
-            player == this.rightPlayer;
-        else
-            throw new Error('Problem choosing which player board');
-        let index = this.getSquareIndex(xCord, yCord, player);
+    receiveAttack: function(xCord, yCord, AttackingPlayer) {
+        let index = this.getSquareIndex(xCord, yCord);
         // Ship is in this space
-        if (player.board[index].occupied !== false){
-            let ship = player.board[index].occupied;
-            ship.shipHit();
+        if (this.board[index].occupied !== false){
+            let ship = this.board[index].occupied;
             ship.isSunk();
             console.log('Hit!');
             return this;
         // No ship in this space
         } else {
-            this.missedShots.push([xCord, yCord]);
+            AttackingPlayer.board.missedShots.push([xCord, yCord]);
             console.log('Miss!')
-            return this;
+            return AttackingPlayer;
         }
     },
 

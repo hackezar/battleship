@@ -22,6 +22,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'app.html',
       template: 'src/app.html',
+      inject: false,
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

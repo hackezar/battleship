@@ -13,18 +13,45 @@
 
 
     <div id='container'>
-        <div class="radioDiv" id="pvpDiv">
-            <input type="radio" id="human" name="radioBtns">
+        <div class="gameModeDiv">
+            <div class="radioDiv" id="pveDiv">
+                <input type="radio" id="computer" name="radioBtns" checked>
+                Player vs. Computer
+                <div class="icons">
+                    <img class="humanPic">
+                    <img class="computerPic">
+                </div>
+            </div>
+
+            <div class="radioDiv" id="pvpDiv">
+                <input type="radio" id="human" name="radioBtns">
                 Player vs. Player
-                <img class="humanPic">
-                <img class="humanPic">
+                <div class="icons">
+                    <img class="humanPic">
+                    <img class="humanPic">
+                </div>
+            </div>
         </div>
 
-        <div class="radioDiv" id="pveDiv">
-                Player vs. Computer
-                <input type="radio" id="computer" name="radioBtns">
-                <img class="humanPic">
-                <img class="computerPic">
+        <div class="forms">
+            <form id="pvpForm" class="form">
+                <legend>Settings</legend>
+                <label for="playerNameInput"> Player Name: 
+                    <input type="text" id="playerNameInput" name="playerNameInput"/>
+                </label>
+                <button type="button" id="playButton">Play</button>
+            </form>
+    
+            <form id="pveForm" class="form hidden">
+                <legend>Settings</legend>
+                <label for="playerNameInput"> 1st Player Name: 
+                    <input type="text" id="playerNameInput" name="playerNameInput"/>
+                </label>
+                <label for="playerNameInput"> 2nd Player Name: 
+                    <input type="text" id="playerNameInput" name="playerNameInput"/>
+                </label>
+                <button type="button" id="playButton">Play</button>
+            </form>
         </div>
     </div>
 

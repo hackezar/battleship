@@ -3,24 +3,47 @@ import _ from "lodash";
 import "./style.css";
 import './homePage.css';
 
-import { createBoard } from "./ship";
-import homepageDom from "./dom";
-// start game function
-import { startGame } from './app';
+import { createBoard } from "./ship.js";
+import {homepageDom, squareEventlistener }from "./dom.js";
+import { buildBoardDom } from "./app.js";
+import { createPlayer } from "./player.js";
 
-
-let Gameboard = createBoard();
-// create the boards for the 2 players
-Gameboard.createSquares();
-Gameboard.placeShip(3, 'left', 2, 2, 'vert', 'Submarine');
-Gameboard.placeShip(5, 'left', 0, 9, 'hori', 'Aircraft Carrier');
-Gameboard.placeShip(4, 'left', 8, 4, 'vert', 'Battleship');
-Gameboard.placeShip(3, 'left', 5, 5, 'hori', 'Destroyer');
-Gameboard.placeShip(2, 'left', 0, 6, 'hori', 'Patrol boat');
-console.log(Gameboard);
+import { whosTurn } from "./app.js";
 
 homepageDom();
 
+
+
+let Gameboard1 = createBoard();
+let Gameboard2 = createBoard();
+// create the boards for the 2 players
+// player1
+Gameboard1.createSquares();
+let Player1 = createPlayer('human', 'Jack');
+Player1.board.placeShip(3, 2, 2, 'vert', 'Submarine');
+Player1.board.placeShip(5, 0, 9, 'hori', 'Aircraft Carrier');
+Player1.board.placeShip(4, 8, 4, 'vert', 'Battleship');
+Player1.board.placeShip(3, 5, 5, 'hori', 'Destroyer');
+Player1.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
+
+
+
+// player2
+Gameboard2.createSquares();
+let Player2 = createPlayer('human', 'Jim Bob');
+Player2.board.placeShip(3, 2, 2, 'vert', 'Submarine');
+Player2.board.placeShip(5, 0, 9, 'hori', 'Aircraft Carrier');
+Player2.board.placeShip(4, 8, 4, 'vert', 'Battleship');
+Player2.board.placeShip(3, 5, 5, 'hori', 'Destroyer');
+Player2.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
+
 // Skips right to the actual game page
-window.location.href = './app.html';
-startGame();
+function simulatePlayButtonClick(Player1, Player2) {
+    document.body.innerHTML = "";
+    buildBoardDom(Player1, Player2);
+};
+simulatePlayButtonClick(Player1, Player2);
+//
+whosTurn(Player1, Player2);
+squareEventlistener(Player1, Player2);
+
