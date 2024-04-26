@@ -10,6 +10,7 @@ import Miss from './icons/water-splash.png';
 
 // start game function
 import { buildHeaderandFooterDom, makeBoardDom } from './app';
+import { checkForComputerMove } from './computerAI';
 
 export function homepageDom() {
     // Add Icon images
@@ -52,7 +53,6 @@ export function addHitIcon(square) {
 
 
 export function squareEventlistener(Player1, Player2) {
-    console.log(Player1, Player2);
     let layout = document.getElementById('layout');
     let clone = layout.cloneNode(true);
     layout.replaceWith(clone);
@@ -61,20 +61,27 @@ export function squareEventlistener(Player1, Player2) {
         for (let j=0; j<10; j++) {
             if (Player1.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {
+                    // Coordinate will be checked if a ship is there on button click
                     Player2.board.receiveAttack(i, j, Player1);
+                    // Switch turn variables after move has been made
                     Player2.turn = true;
                     Player1.turn = false;
                     whosTurn(Player1, Player2);
                     makeBoardDom(Player2);
+                    // If its time for computer to move, do so
+                    checkForComputerMove(Player2, Player1);   
                     squareEventlistener(Player1, Player2);
                 })
             } else if (Player2.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {
                     Player1.board.receiveAttack(i, j, Player2);
+                    // switch turn variables after turn has been made
                     Player1.turn = true;
                     Player2.turn = false;
                     whosTurn(Player1, Player2);
                     makeBoardDom(Player1);
+                    // If its time for computer to move, do so
+                    checkForComputerMove(Player1, Player2);
                     squareEventlistener(Player1, Player2);
                 });
             } else {

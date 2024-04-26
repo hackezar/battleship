@@ -10,6 +10,8 @@ import { createPlayer } from "./player.js";
 
 import { whosTurn } from "./app.js";
 
+import { checkForComputerMove } from "./computerAI.js";
+
 homepageDom();
 
 
@@ -47,4 +49,8 @@ simulatePlayButtonClick(Player1, Player2);
 //
 whosTurn(Player1, Player2);
 squareEventlistener(Player1, Player2);
+if (Player1.type == 'computer') 
+    checkForComputerMove(Player1, Player2);
+else if (Player2.type == 'computer')
+    checkForComputerMove(Player2, Player1);
 

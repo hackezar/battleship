@@ -14,12 +14,14 @@ export const shipProto = {
 };
 
 // Factory function to make the Ship object
-export function createShip(length, title) {
+export function createShip(length, title, x, y) {
     let ship = Object.create(shipProto);
     ship.length = length;
     ship.hits = 0;
     ship.sunk = false;
     ship.title = title;
+    ship.x = x;
+    ship.y = y;
     return ship;
 }
  
@@ -29,6 +31,7 @@ export const gameBoard = {
         this.gameOver = false;
         this.missedShots = [];
         this.hitShots = [];
+        this.hitShips = [];
         this.shipsOnBoard = [];
         this.board = new Array();
         class coordinate {
@@ -50,11 +53,51 @@ export const gameBoard = {
         delete this
     },
 
+    addHitShips: function(ship) {
+        console.log(ship);
+        for (let i=0; i<this.board.hitShips; i++) {
+            console.log(this.hitShip[i]);
+            console.log(ship);
+                if (this.hitShips[i].title == ship.title)
+                    return this;
+        }
+        return this.hitShips.push(ship);
+
+    },
+
     getSquareIndex: function(xCord, yCord) {
         for (let i=0; i<this.board.length; i++){
             if (this.board[i].x == xCord && this.board[i].y == yCord)
                 return i;
         }
+    },
+
+    checkMissedShots: function (x, y) {
+        // Check if missed shots has any data
+        if (this.missedShots.length > 0) {
+            // iterate through the array
+            for (let i=0; i<this.missedShots.length; i++) {
+                // If any of the missed shots match the random coordinates
+                if (this.missedShots[i][0] == x && this.missedShots[i][1] == y) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+
+    checkHitShots: function (x, y) {
+        // check if hit shots has any data
+        if (this.missedShots.length > 0) {
+            //iterate through array
+            for (let i=0; i<this.hitShots.length; i++) {
+                // if any of the hit shots match the random coordinates
+                if (this.hitShots[i][0] == x && this.hitShots[i][1] == y) {
+                    return true;
+                }
+            }
+        }
+        return false;
     },
 
     placeShip: function(length, xStart, yStart, orientation, title) {
@@ -67,8 +110,7 @@ export const gameBoard = {
             let squareIndex = this.getSquareIndex(xStart, yStart);
             // if space is already occupied
             if (this.board[squareIndex].occupied == true)
-                throw new Error('This space is already occupied by a ship');
-            this.board[squareIndex].occupied = createShip(length, title);
+                throw new Error('This space is already occupied by a ship');            this.board[squareIndex].occupied = createShip(length, title, this.board[squareIndex].x, this.board[squareIndex].y);
             count--;
             //place ship vertically by adding to yStart
             if (orientation == 'vert')
@@ -88,10 +130,14 @@ export const gameBoard = {
             AttackingPlayer.board.hitShots.push([xCord, yCord]);
             displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and hits!');
             let ship = this.board[index].occupied;
+            console.log(ship);
+            this.addHitShips(ship);
             ship.isSunk();
+            console.log('hit');
             return this;
         // No ship in this space
         } else {
+            console.log('miss');
             AttackingPlayer.board.missedShots.push([xCord, yCord]);
             displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and misses!');
             return AttackingPlayer;

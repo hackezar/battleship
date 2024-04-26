@@ -47,7 +47,6 @@ export function buildHeaderandFooterDom(Player1, Player2) {
 }
 
 export function checkForHitOrMiss(Player) {
-    console.log(Player);
     for (let i=0; i<Player.board.board.length; i++) {
         for (let j=0; j<Player.board.hitShots.length; j++)
         if (Player.board.board[i].x == Player.board.hitShots[j][0] && Player.board.board[i].y == Player.board.hitShots[j][1]) {
@@ -110,7 +109,7 @@ export function whosTurn(Player1, Player2) {
             document.getElementById('player1score').classList.add('yourTurn');
             document.getElementById('player2score').classList.remove('yourTurn');
             document.getElementById('turnOutput').innerHTML = `${Player1.name}'s Turn! Make your pick.`
-            return Player1
+            return Player1;
         }
         else if (random == 1) {
             Player2.turn = true;
@@ -118,7 +117,25 @@ export function whosTurn(Player1, Player2) {
             document.getElementById('player2score').classList.add('yourTurn');
             document.getElementById('player1score').classList.remove('yourTurn');
             document.getElementById('turnOutput').innerHTML = `${Player2.name}'s Turn! Make your pick.`
-            return Player2
+            return Player2;
         }
     }
+}
+
+export function testMoveInHitOrMissList(x, y, Computer) {
+    console.log(Computer);
+    // See if in hitShots
+    if (Computer.board.hitShots.length > 0) {
+        for (let i=0; i<Computer.board.hitShots.length; i++) {
+            if (Computer.board.hitShots[i].x == x && Computer.board.hitShots[i].y == y)
+                return true;
+        }
+        // See if in missed shots
+    }else if (Computer.board.missedShots.length > 0) {
+        for (let i=0; i<Computer.board.missedShots.length; i++) {
+            if (Computer.board.missedShots[i].x == x && Computer.board.missedShots[i],y == y) 
+                return true;  
+        }
+    }
+    return false;
 }
