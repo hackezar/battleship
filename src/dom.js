@@ -1,7 +1,7 @@
 // Radio icons
 import HumanPic from './icons/human.svg';
 import ComputerPic from './icons/robot.svg';
-import { whosTurn, checkForHitOrMiss } from './app';
+import { whosTurn, checkForHitOrMiss, testMoveInHitOrMissList } from './app';
 
 // Hit Icon
 import Hit from './icons/nuclear-explosion.png';
@@ -61,6 +61,13 @@ export function squareEventlistener(Player1, Player2) {
         for (let j=0; j<10; j++) {
             if (Player1.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {
+                    // make sure the square hasnt been attacked before
+                    if (testMoveInHitOrMissList(i, j, Player1) == true){
+                        let output = document.getElementById('turnMessage');
+                        output.innerHTML = "";
+                        output.innerHTML = `${Player1.name}, you have already attacked (${i}, ${j}) before`;
+                        return;
+                    }
                     // Coordinate will be checked if a ship is there on button click
                     Player2.board.receiveAttack(i, j, Player1);
                     // Switch turn variables after move has been made

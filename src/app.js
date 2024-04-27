@@ -122,20 +122,47 @@ export function whosTurn(Player1, Player2) {
     }
 }
 
-export function testMoveInHitOrMissList(x, y, Computer) {
-    console.log(Computer);
+export function testMoveInHitOrMissList(moveX, moveY, Computer) {
+    console.log(Computer.board.hitShots);
+    console.log(Computer.board.missedShots);
     // See if in hitShots
     if (Computer.board.hitShots.length > 0) {
         for (let i=0; i<Computer.board.hitShots.length; i++) {
-            if (Computer.board.hitShots[i].x == x && Computer.board.hitShots[i].y == y)
+            if (Computer.board.hitShots[i][0] == moveX && Computer.board.hitShots[i][1] == moveY)
                 return true;
         }
-        // See if in missed shots
-    }else if (Computer.board.missedShots.length > 0) {
+
+    }        
+    // See if in missed shots
+    if (Computer.board.missedShots.length > 0) {
         for (let i=0; i<Computer.board.missedShots.length; i++) {
-            if (Computer.board.missedShots[i].x == x && Computer.board.missedShots[i],y == y) 
+            if (Computer.board.missedShots[i][0] == moveX && Computer.board.missedShots[i][1] == moveY) 
                 return true;  
         }
     }
-    return false;
+    return false; 
+}
+
+export function isSunk(AttackingPlayer, shipTitle) {
+    console.log(shipTitle);
+    if (AttackingPlayer.board.shipsOnOpponentBoard.length > 0) {
+        for (let i=0; i<AttackingPlayer.board.shipsOnOpponentBoard.length; i++) {
+            // Find ship that has been hit in the shipsonopponentboard array
+            if (AttackingPlayer.board.shipsOnOpponentBoard[i].title == shipTitle) {
+                // See if ship is sunk
+                if (AttackingPlayer.board.shipsOnOpponentBoard[i].hits >= AttackingPlayer.board.shipsOnOpponentBoard[i].length) {
+                    // mark ship as sunk
+                    AttackingPlayer.board.shipsOnOpponentBoard[i].sunk = true;
+                    
+                    // Send message that ship has been sunk
+                    let turnMessage = document.getElementById('turnMessage');
+                    turnMessage.innerHTML = "";
+                    turnMessage.innerHTML = `${AttackingPlayer.name} sinks the enemy's ${shipTitle}!`;
+                    return;
+                }
+            }
+        }
+    } else {
+        alert('All Ships are sunk, No more ships on opponent board');
+    }
 }
