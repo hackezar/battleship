@@ -13,6 +13,8 @@ export function createShip(length, title) {
     ship.hits = 0;
     ship.sunk = false;
     ship.title = title;
+    ship.xHits = [];
+    ship.yHits = [];
     return ship;
 }
  
@@ -124,10 +126,12 @@ export const gameBoard = {
         return this;
     },
 
-    addHitToShip: function(hitShip, shipsOnOpponentBoard) {
+    addHitToShip: function(hitShip, shipsOnOpponentBoard, xCord, yCord) {
         for (let i=0; i<shipsOnOpponentBoard.length; i++) {
             if (shipsOnOpponentBoard[i].title == hitShip.title) {
                 shipsOnOpponentBoard[i].hits += 1;
+                shipsOnOpponentBoard[i].xHits.push(xCord);
+                shipsOnOpponentBoard[i].yHits.push(yCord);
             }
         }
         return shipsOnOpponentBoard;
@@ -136,13 +140,15 @@ export const gameBoard = {
     receiveAttack: function(xCord, yCord, AttackingPlayer) {
         let index = this.getSquareIndex(xCord, yCord);
         console.log(xCord, yCord);
+        console.log(this);
+        console.log(index);
         // Ship is in this space
         if (this.board[index].occupied !== false){
             AttackingPlayer.board.hitShots.push([xCord, yCord]);
             displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and hits!');
             let ship = this.board[index].occupied;
             //add hit to ship variable
-            this.addHitToShip(ship, AttackingPlayer.board.shipsOnOpponentBoard);
+            this.addHitToShip(ship, AttackingPlayer.board.shipsOnOpponentBoard, xCord, yCord);
             AttackingPlayer.board.addHitShips(ship);
             // See if the ship that was hit has been sunk
             isSunk(AttackingPlayer, ship.title);

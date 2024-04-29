@@ -1,7 +1,7 @@
 // Radio icons
 import HumanPic from './icons/human.svg';
 import ComputerPic from './icons/robot.svg';
-import { whosTurn, checkForHitOrMiss, testMoveInHitOrMissList } from './app';
+import { whosTurn, checkForHitOrMiss, testMoveInHitOrMissList, checkGameOver } from './app';
 
 // Hit Icon
 import Hit from './icons/nuclear-explosion.png';
@@ -73,6 +73,7 @@ export function squareEventlistener(Player1, Player2) {
                     // Switch turn variables after move has been made
                     Player2.turn = true;
                     Player1.turn = false;
+                    checkGameOver(Player1);
                     whosTurn(Player1, Player2);
                     makeBoardDom(Player2);
                     // If its time for computer to move, do so
@@ -81,10 +82,18 @@ export function squareEventlistener(Player1, Player2) {
                 })
             } else if (Player2.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {
+                    // make sure the square hasnt been attacked before
+                    if (testMoveInHitOrMissList(i, j, Player2) == true){
+                        let output = document.getElementById('turnMessage');
+                        output.innerHTML = "";
+                        output.innerHTML = `${Player2.name}, you have already attacked (${i}, ${j}) before`;
+                        return;
+                    }
                     Player1.board.receiveAttack(i, j, Player2);
                     // switch turn variables after turn has been made
                     Player1.turn = true;
                     Player2.turn = false;
+                    checkGameOver(Player2);
                     whosTurn(Player1, Player2);
                     makeBoardDom(Player1);
                     // If its time for computer to move, do so
@@ -102,5 +111,22 @@ export function displayHitOrMiss(xCord, yCord, Player, winLossMessage) {
     let textBox = document.getElementById('turnMessage');
     textBox.innerHTML = "";
     textBox.innerHTML = `${Player.name} attacks ${xCord}, ${yCord} ${winLossMessage}`;
+}
+
+export function displayGameOverDom(Player1, Player2) {
+    let Winner;
+    let Loser;
+    if (Player1.winner == true && Player2.winner == true)
+        throw new Error('Both Players are declared winners')
+    else if (Player1.winner = true)
+        Winner = Player1, Loser = Player2;
+    else if (Player2.winner = true)
+        Winner = Player2, Loser = Player1;
+    else
+        throw new Error('No winner is declared');
+
+    let message = document.getElementById('turnMessage');
+    message.innerHTML = "";
+    message.innerHTML = `${Winner.name} defeats ${Loser.name}!`;
 }
 

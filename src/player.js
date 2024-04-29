@@ -12,5 +12,6 @@ export function createPlayer(type, name) {
     gameboard.createSquares();
     player.board = gameboard;
     player.turn = false;
+    player.winner = false;
     return player;
 }

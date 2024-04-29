@@ -1,3 +1,4 @@
+import { random } from "lodash";
 import { addHitIcon } from "./dom";
 
 
@@ -144,8 +145,6 @@ export function testMoveInHitOrMissList(moveX, moveY, Computer) {
 }
 
 export function isSunk(AttackingPlayer, shipTitle) {
-    console.log(shipTitle);
-    if (AttackingPlayer.board.shipsOnOpponentBoard.length > 0) {
         for (let i=0; i<AttackingPlayer.board.shipsOnOpponentBoard.length; i++) {
             // Find ship that has been hit in the shipsonopponentboard array
             if (AttackingPlayer.board.shipsOnOpponentBoard[i].title == shipTitle) {
@@ -161,8 +160,43 @@ export function isSunk(AttackingPlayer, shipTitle) {
                     return;
                 }
             }
+        } 
+}
+
+export function getHitCoords(shipsOnBoard) {
+    for (let i=0; i<shipsOnBoard.length; i++) {
+        if (shipsOnBoard[i].hits > 0) {
+                let randomIndex = Math.floor(Math.random() * (shipsOnBoard[i].xHits.length - 1));
+                let randomX = shipsOnBoard[i].xHits[randomIndex];
+                let randomY = shipsOnBoard[i].yHits[randomIndex];
+                let move = [randomX, randomY]
+                return move
         }
-    } else {
-        alert('All Ships are sunk, No more ships on opponent board');
+    }
+}
+
+export function checkGameOver(Player) {
+    // Check if the game is over
+    for (let i=0; i<Player.board.shipsOnOpponentBoard.length; i++) {
+        if (Player.board.shipsOnOpponentBoard[i].sunk == false)
+            return false;
+    }         
+    console.log("The Computer Wins!");
+    Player.winner = true;
+    displayGameOverDom(Player);
+    return;
+    }
+    
+export function shipSunkData(Player, shipName) {
+    for (let i=0; i<Player.board.shipsOnOpponentBoard.length; i++) {
+        if (Player.board.shipsOnOpponentBoard[i].title == shipName) {
+            //Test if ship is sunk
+            if (Player.board.shipsOnOpponentBoard[i].sunk == false)
+                return false;
+            else if (Player.board.shipsOnOpponentBoard[i].sunk == true)
+                return true;
+            else
+                throw new Error('ship sunk error');            
+        }
     }
 }
