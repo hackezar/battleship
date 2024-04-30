@@ -1,5 +1,5 @@
 import { random } from "lodash";
-import { addHitIcon, getShipsLeft } from "./dom";
+import { addHitIcon, getShipsLeft, squareEventlistener } from "./dom";
 
 
 import Hit from './icons/nuclear-explosion.png';
@@ -216,5 +216,9 @@ export function shipSunkData(Player, shipName) {
 export function startGame(Player1, Player2){
     document.body.innerHTML = "";
     buildHeaderandFooterDom(Player1, Player2);
-    //makeBoardDom(whosTurn(Player1, Player2));
+    makeBoardDom(whosTurn(Player1, Player2));
+    console.log(Player1, Player2);
+    //square event listeners for game
+    squareEventlistener(Player1, Player2);
+    checkForComputerMove(Player1, Player2);
 }

@@ -19,17 +19,18 @@ homepageDom();
 
 
 let Gameboard1 = createBoard();
-let Gameboard2 = createBoard();
 // create the boards for the 2 players
 // player1
 Gameboard1.createSquares();
 let Player1 = createPlayer('human', 'Jack', 1);
 
-Gameboard2.createSquares();
-let Player2 = createPlayer('computer', 'Mr. Roboto', 2);
-
 // Go to ship placement screen for player1
 shipPlacementSetup(Player1)
+
+// The game is started from a continue button in shipPlacementSetup
+// once all the ships have been set
+
+
 
 
 // Skips right to the actual game page

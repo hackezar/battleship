@@ -109,12 +109,12 @@ export function computerMove(Computer, Player) {
     }
     return Computer, Player;
 }
-export function checkForComputerMove(Computer, Player) {
+export function checkForComputerMove(Player1, Player2) {
     // Check that its the computers turn
-    if (Computer.turn == true)  {
+    if (Player2.turn == true)  {
         // Check that player is of type computer
-        if (Computer.type = 'computer') {
-            computerMove(Computer, Player);
+        if (Player2.type = 'computer') {
+            computerMove(Player2, Player1);
         }
     }
     else
@@ -157,9 +157,8 @@ export function placeComputerShips(Computer) {
         }
     }
     getRandomCoords();
-}
-console.log(Computer);
-return Computer
+    }
+    window.player2 = Computer;
 }
 
 export function testIfSpaceOccupied(Computer, xCoord, yCoord, ship, orientation) {

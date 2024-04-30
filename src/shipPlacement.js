@@ -331,8 +331,22 @@ export function resetShipPlace() {
     }
 }
 
+export function addShipsOnOpponentBoard(Player1, Player2){
+    // Add for player1
+    for (let i=0; i<Player2.board.shipsOnBoard.length; i++){
+        Player1.board.shipsOnOpponentBoard.push(Player2.board.shipsOnBoard[i]);
+    }
+    window.player1 = Player1;
+
+    // Add for player 2
+    for (let i=0; i<Player1.board.shipsOnBoard.length; i++){
+        Player2.board.shipsOnOpponentBoard.push(Player1.board.shipsOnBoard[i]);
+    }
+    window.player2 = Player2;
+}
+
 export function continueBtnListener() {
-    console.log(window.player1);
+    window.player1.type = 'human';
     if (window.player1.board.shipsOnBoard.length == 5) {
         if (window.player2 == undefined) {
             // Create Player 2
@@ -341,13 +355,13 @@ export function continueBtnListener() {
             let Player2 = createPlayer('computer', 'Mr. Roboto', 2);
             // If player2 is a human, go to ship placement screen
             if (Player2.type == 'human')
-            shipPlacementSetup(Player2);
+                shipPlacementSetup(Player2);
             // if player2 is a computer, randomly place ships
             else
                 placeComputerShips(Player2);
-            return Player2;
-        }       
-        startGame(window.player1, Player2);
+        }
+        addShipsOnOpponentBoard(window.player1, window.player2);       
+        startGame(window.player1, window.player2);
     }
 }
 

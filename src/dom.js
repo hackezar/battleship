@@ -65,7 +65,7 @@ export function addNextButton(Player1, Player2) {
         whosTurn(Player1, Player2);
         makeBoardDom(Player2);
         // If its time for computer to move, do so
-        checkForComputerMove(Player2, Player1);   
+        checkForComputerMove(Player1, Player2);   
         squareEventlistener(Player1, Player2);
     })
     header.insertBefore(nextBtn, document.getElementById('player2score'));
