@@ -37,8 +37,18 @@ html {
   font-size: 2rem;
 }
 
-#turnOutput {
+#nextBtn {
+  height: 2rem;
+  width: 8rem;
+  border: 1px solid black;
+  border-radius: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+#nextBtn:hover {
+  cursor: pointer;
 }
 
 #boardContainer {
@@ -70,4 +80,50 @@ html {
 .hitIcon {
   height: 50px;
   width: 50px;
+}
+
+/*The Following is for the ship placement page*/
+#shipSetupContainer {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.shipSetup {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, calc((100% - 10px) / 10));
+  grid-template-rows: repeat(10, calc((100% - 10px) / 10));
+  border: solid 1px black;
+  background-color: black;
+  gap: 1px;
+}
+#setupHeader {
+  display: flex;
+  height: 15vh;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#rotateDiv:hover {
+  cursor: pointer;
+}
+
+
+#shipPlaceFooter {
+  height: 15vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.shipSetupBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 10rem;
+  border: 1px solid black;
+  border-radius: 2rem;
 }

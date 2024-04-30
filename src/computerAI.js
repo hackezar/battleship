@@ -1,5 +1,6 @@
-import { squareEventlistener, displayGameOverDom } from "./dom";
+import { squareEventlistener, displayGameOverDom, updateShipsLeft } from "./dom";
 import { testMoveInHitOrMissList, checkGameOver, shipSunkData, getHitCoords, makeBoardDom, whosTurn } from "./app";
+import { selectAShipToPlace } from "./shipPlacement";
 
 export function makeRandomPick(Computer, Player) {
     while(Computer.turn == true) {
@@ -8,6 +9,7 @@ export function makeRandomPick(Computer, Player) {
         // make sure random coords are not in the hit or miss arrays
         if (testMoveInHitOrMissList(randomX, randomY, Computer) == false) {
             Player.board.receiveAttack(randomX, randomY, Computer);
+            updateShipsLeft(Computer);
             // switch turn variables after move has been made
             Computer.turn = false;
             Player.turn = true;
@@ -82,6 +84,7 @@ export function computerMove(Computer, Player) {
                         // Make sure the move is on the board
                         if (move[0] <= 9 && move[0] >=0 && move[1] <= 9 && move[1] >= 0 && move != undefined) {
                             Player.board.receiveAttack(move[0], move[1], Computer);
+                            updateShipsLeft(Computer);
                             // Switch whos turn it is
                             Computer.turn = false;
                             Player.turn = true;
@@ -116,4 +119,63 @@ export function checkForComputerMove(Computer, Player) {
     }
     else
         return;
+}
+
+export function placeComputerShips(Computer) {
+
+    for (let i=0; i<5; i++){
+    let orientation = Math.floor(Math.random() * 2);
+    function getRandomCoords(){
+        let xCoord = Math.floor(Math.random() * 10);
+        let yCoord = Math.floor(Math.random() * 10);
+        let ship = selectAShipToPlace(Computer);
+        console.log(xCoord + ship.length - 1);
+        if (orientation == 0){
+            Computer.shipPlace = 'Vertical';
+            if ((xCoord + length - 1) > 9){
+                getRandomCoords();
+            }
+            else {
+                if (testIfSpaceOccupied(Computer, xCoord, yCoord, ship, Computer.shipPlace) == false){
+                    Computer.board.placeShip(ship.length, xCoord, yCoord, Computer.shipPlace, ship.title);
+                }
+                else
+                    getRandomCoords();
+            }
+        }else if (orientation == 1) {
+            Computer.shipPlace= 'Horizontal';
+            if ((yCoord + ship.length - 1) > 9){
+                    getRandomCoords();
+            }
+            else {
+                if (testIfSpaceOccupied(Computer, xCoord, yCoord, ship, Computer.shipPlace) == false){
+                    Computer.board = Computer.board.placeShip(ship.length, xCoord, yCoord, Computer.shipPlace, ship.title);
+                }
+                else
+                    getRandomCoords();
+            }
+        }
+    }
+    getRandomCoords();
+}
+console.log(Computer);
+return Computer
+}
+
+export function testIfSpaceOccupied(Computer, xCoord, yCoord, ship, orientation) {
+    for (let i=0; i<ship.length; i++){
+        let index = Computer.board.getSquareIndex(xCoord, yCoord);
+        console.log(xCoord, yCoord);
+        if (xCoord > 9 || xCoord < 0 || yCoord > 9 || yCoord < 0)
+            return true;
+        console.log(index);
+        if (Computer.board.board[index].occupied != false){
+            return true;
+        }
+        if (orientation = 'Vertical')
+            xCoord++;
+        else if (orientation = 'Horizontal')
+            yCoord++;
+    }
+    return false;
 }

@@ -1,5 +1,6 @@
 import { displayHitOrMiss } from "./dom";
-import { isSunk, testMoveInHitOrMissList } from "./app";
+import { checkForHitOrMiss, isSunk, testMoveInHitOrMissList } from "./app";
+import { addShipImg } from "./shipPlacement";
 // Creating ship object
 export const shipProto = {
 
@@ -26,6 +27,7 @@ export const gameBoard = {
         this.hitShots = [];
         this.hitShips = [];
         this.shipsOnOpponentBoard = [];
+        this.shipsOnBoard = [];
         this.board = new Array();
         class coordinate {
             constructor(x, y) {
@@ -104,8 +106,8 @@ export const gameBoard = {
     },
 
     placeShip: function(length, xStart, yStart, orientation, title) {
-        let count = length;
-        while (count >= 1) {
+        for (let i=0; i<length; i++) {
+            console.log(xStart, yStart);
             // Check if the coordinates are on the board
             if (xStart > 9 || xStart < 0 || yStart > 9 || yStart < 0) {
                 throw new Error('Coordinates are not on board');
@@ -113,16 +115,22 @@ export const gameBoard = {
             let squareIndex = this.getSquareIndex(xStart, yStart);
             // if space is already occupied
             if (this.board[squareIndex].occupied == true)
-                throw new Error('This space is already occupied by a ship');            this.board[squareIndex].occupied = createShip(length, title, this.board[squareIndex].x, this.board[squareIndex].y);
-            count--;
+                throw new Error('This space is already occupied by a ship');            
+            this.board[squareIndex].occupied = createShip(length, title, this.board[squareIndex].x, this.board[squareIndex].y);
             //place ship vertically by adding to yStart
-            if (orientation == 'vert')
-                yStart++;
-            // and vice versa
-            else if (orientation == 'hori')
+            if (orientation == 'Vertical'){
+                this.board[squareIndex].occupied = createShip(length, title);
+                addShipImg(xStart, yStart);
                 xStart++;
+            }
+            // and vice versa
+            else if (orientation == 'Horizontal') {
+                this.board[squareIndex].occupied = createShip(length, title);
+                addShipImg(xStart, yStart);
+                yStart++;
+            }
         }
-        this.shipsOnOpponentBoard.push(createShip(length, title));
+        this.shipsOnBoard.push(createShip(length, title));
         return this;
     },
 
@@ -145,6 +153,7 @@ export const gameBoard = {
         // Ship is in this space
         if (this.board[index].occupied !== false){
             AttackingPlayer.board.hitShots.push([xCord, yCord]);
+            checkForHitOrMiss(AttackingPlayer);
             displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and hits!');
             let ship = this.board[index].occupied;
             //add hit to ship variable
@@ -158,6 +167,7 @@ export const gameBoard = {
         } else {
             console.log('miss');
             AttackingPlayer.board.missedShots.push([xCord, yCord]);
+            checkForHitOrMiss(AttackingPlayer);
             displayHitOrMiss(xCord, yCord, AttackingPlayer, 'and misses!');
             return AttackingPlayer;
         }

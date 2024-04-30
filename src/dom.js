@@ -50,7 +50,42 @@ export function addHitIcon(square) {
     square.appendChild(newIcon);
 }
 
+export function addNextButton(Player1, Player2) {
+    // Remove turnOutput
+    document.getElementById('turnOutput').innerHTML = `Click "Next Turn" button for next turn`;
+    let header = document.getElementById('headerId');
+    let nextBtn = document.createElement('btn');
+    nextBtn.classList.add('nextBtn');
+    nextBtn.setAttribute('id', 'nextBtn');
+    nextBtn.innerHTML = 'Next Turn';
+    nextBtn.addEventListener('click', () => {
+        // remove next button
+        nextBtn.remove();
+        // dont execute below until next button is clicked
+        whosTurn(Player1, Player2);
+        makeBoardDom(Player2);
+        // If its time for computer to move, do so
+        checkForComputerMove(Player2, Player1);   
+        squareEventlistener(Player1, Player2);
+    })
+    header.insertBefore(nextBtn, document.getElementById('player2score'));
+}
 
+export function updateShipsLeft(Attacker) {
+    let count=0;
+    for (let i=0; i<Attacker.board.shipsOnOpponentBoard.length; i++) {
+        if (Attacker.board.shipsOnOpponentBoard[i].sunk == false) {
+            count++
+        }
+    }
+    if (Attacker.number == 1) {
+        let player2 = document.getElementById('score2Ships');
+        player2.innerHTML = `Ships left: ${count}`;
+    } else if (Attacker.number == 2) {
+        let player1 = document.getElementById('score1Ships');
+        player1.innerHTML = `Ships left: ${count}`;
+    }
+}
 
 export function squareEventlistener(Player1, Player2) {
     let layout = document.getElementById('layout');
@@ -70,15 +105,13 @@ export function squareEventlistener(Player1, Player2) {
                     }
                     // Coordinate will be checked if a ship is there on button click
                     Player2.board.receiveAttack(i, j, Player1);
+                    updateShipsLeft(Player1);
                     // Switch turn variables after move has been made
                     Player2.turn = true;
                     Player1.turn = false;
                     checkGameOver(Player1);
-                    whosTurn(Player1, Player2);
-                    makeBoardDom(Player2);
-                    // If its time for computer to move, do so
-                    checkForComputerMove(Player2, Player1);   
-                    squareEventlistener(Player1, Player2);
+                    addNextButton(Player1, Player2);
+   
                 })
             } else if (Player2.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {
@@ -90,15 +123,12 @@ export function squareEventlistener(Player1, Player2) {
                         return;
                     }
                     Player1.board.receiveAttack(i, j, Player2);
+                    updateShipsLeft(Player2);
                     // switch turn variables after turn has been made
                     Player1.turn = true;
                     Player2.turn = false;
                     checkGameOver(Player2);
-                    whosTurn(Player1, Player2);
-                    makeBoardDom(Player1);
-                    // If its time for computer to move, do so
-                    checkForComputerMove(Player1, Player2);
-                    squareEventlistener(Player1, Player2);
+                    addNextButton(Player1, Player2);
                 });
             } else {
                 throw new Error('No player has turn set to true');
@@ -129,4 +159,12 @@ export function displayGameOverDom(Player1, Player2) {
     message.innerHTML = "";
     message.innerHTML = `${Winner.name} defeats ${Loser.name}!`;
 }
-
+export function getShipsLeft(Player) {
+    let count=0;
+    for (let i=0; i<Player.board.shipsOnOpponentBoard.length; i++) {
+        if (Player.board.shipsOnOpponentBoard[i].sunk == false) {
+            count++;
+        }
+    }
+    return "Ships left: " + count;
+}

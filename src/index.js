@@ -12,6 +12,8 @@ import { whosTurn } from "./app.js";
 
 import { checkForComputerMove } from "./computerAI.js";
 
+//ship placement screen imports
+import { shipPlacementSetup } from "./shipPlacement.js";
 homepageDom();
 
 
@@ -21,25 +23,17 @@ let Gameboard2 = createBoard();
 // create the boards for the 2 players
 // player1
 Gameboard1.createSquares();
-let Player1 = createPlayer('human', 'Jack');
-Player1.board.placeShip(3, 2, 2, 'vert', 'Submarine');
-Player1.board.placeShip(5, 0, 9, 'hori', 'Aircraft Carrier');
-Player1.board.placeShip(4, 8, 4, 'vert', 'Battleship');
-Player1.board.placeShip(3, 5, 5, 'hori', 'Destroyer');
-Player1.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
+let Player1 = createPlayer('human', 'Jack', 1);
 
-
-
-// player2
 Gameboard2.createSquares();
-let Player2 = createPlayer('computer', 'Mr. Roboto');
-Player2.board.placeShip(3, 2, 2, 'vert', 'Submarine');
-Player2.board.placeShip(5, 0, 9, 'hori', 'Aircraft Carrier');
-Player2.board.placeShip(4, 8, 4, 'vert', 'Battleship');
-Player2.board.placeShip(3, 5, 5, 'hori', 'Destroyer');
-Player2.board.placeShip(2, 0, 6, 'hori', 'Patrol boat');
+let Player2 = createPlayer('computer', 'Mr. Roboto', 2);
+
+// Go to ship placement screen for player1
+shipPlacementSetup(Player1)
+
 
 // Skips right to the actual game page
+/*
 function simulatePlayButtonClick(Player1, Player2) {
     document.body.innerHTML = "";
     buildHeaderandFooterDom(Player1, Player2);
@@ -53,4 +47,4 @@ if (Player1.type == 'computer')
     checkForComputerMove(Player1, Player2);
 else if (Player2.type == 'computer')
     checkForComputerMove(Player2, Player1);
-
+*/

@@ -1,9 +1,10 @@
 import { random } from "lodash";
-import { addHitIcon } from "./dom";
+import { addHitIcon, getShipsLeft } from "./dom";
 
 
 import Hit from './icons/nuclear-explosion.png';
 import Miss from './icons/water-splash.png';
+import { checkForComputerMove } from "./computerAI";
 
 export function buildHeaderandFooterDom(Player1, Player2) {
     // layout
@@ -13,19 +14,33 @@ export function buildHeaderandFooterDom(Player1, Player2) {
     // Header
     let header = document.createElement('div');
     let score1 = document.createElement('div');
+    let score1Name = document.createElement('div');
+    score1Name.setAttribute('id', 'score1Name');
+    score1Name.innerHTML = Player1.name;
+    let score1Ships = document.createElement('div');
+    score1Ships.innerHTML = getShipsLeft(Player2);
+    score1Ships.setAttribute('id', 'score1Ships');
     let score2 = document.createElement('div');
+    let score2Name = document.createElement('div');
+    score2Name.setAttribute('id', 'score2Name');
+    score2Name.innerHTML = Player2.name;
+    let score2Ships = document.createElement('div');
+    score2Ships.setAttribute('id', 'score2Ships');
+    score2Ships.innerHTML = getShipsLeft(Player1);
     header.setAttribute('class', 'header');
+    header.setAttribute('id', 'headerId');
     score1.setAttribute('id', 'player1score');
     score1.classList.add('scoreHeader');
     score2.setAttribute('id', 'player2score');
-    score2.classList.add('scoreHeader');    
+    score2.classList.add('scoreHeader');  
+    score1.appendChild(score1Name);
+    score1.appendChild(score1Ships);  
     header.appendChild(score1);
+    score2.appendChild(score2Name);
+    score2.appendChild(score2Ships);
     header.appendChild(score2);
     layout.appendChild(header);
-    score1.innerHTML = `<div class='playerName'>${Player1.name}</div>` + 
-                       "<div class=playerShips'>Ships left: 5</div>";
-    score2.innerHTML = `<div class='playerName'>${Player2.name}</div>` + 
-                       `<div class=playerShips'>Ships left: 5</div>`;
+
     // Container
     let container = document.createElement('div');
     container.setAttribute('id', 'boardContainer');
@@ -55,9 +70,8 @@ export function checkForHitOrMiss(Player) {
             let squareY = Player.board.board[i].y;
             let square = document.getElementById(`${squareX}, ${squareY}`);
             square.innerHTML = "";
-            let hitIcon = Hit;
             let newIcon = document.createElement('img');
-            newIcon.src = hitIcon;
+            newIcon.src = Hit;
             newIcon.classList.add('hitIcon');
             square.appendChild(newIcon);
         }
@@ -67,9 +81,8 @@ export function checkForHitOrMiss(Player) {
                 let squareY = Player.board.board[i].y;
                 let square = document.getElementById(`${squareX}, ${squareY}`);
                 square.innerHTML = "";
-                let missIcon = Miss;
                 let newIcon = document.createElement('img');
-                newIcon.src = missIcon;
+                newIcon.src = Miss;
                 newIcon.classList.add('hitIcon');
                 square.appendChild(newIcon);
             }
@@ -152,7 +165,6 @@ export function isSunk(AttackingPlayer, shipTitle) {
                 if (AttackingPlayer.board.shipsOnOpponentBoard[i].hits >= AttackingPlayer.board.shipsOnOpponentBoard[i].length) {
                     // mark ship as sunk
                     AttackingPlayer.board.shipsOnOpponentBoard[i].sunk = true;
-                    
                     // Send message that ship has been sunk
                     let turnMessage = document.getElementById('turnMessage');
                     turnMessage.innerHTML = "";
@@ -199,4 +211,10 @@ export function shipSunkData(Player, shipName) {
                 throw new Error('ship sunk error');            
         }
     }
+}
+
+export function startGame(Player1, Player2){
+    document.body.innerHTML = "";
+    buildHeaderandFooterDom(Player1, Player2);
+    //makeBoardDom(whosTurn(Player1, Player2));
 }
