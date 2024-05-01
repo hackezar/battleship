@@ -17,17 +17,11 @@ export function shipPlacementSetup(Player) {
     header.setAttribute('id', 'setupHeader');
     let rotateDiv = document.createElement('div');
     rotateDiv.setAttribute('id', 'rotateDiv');
-    let rotateMessage = document.createElement('div');
-    rotateMessage.setAttribute('id', 'rotateMessage');
-    rotateMessage.innerHTML = `Current Orientation: ${Player.shipPlace}`
-    let rotateImg = document.createElement('img');
-    rotateImg.src = Rotate;
-    rotateImg.setAttribute('id', 'rotateIcon');
-    rotateImg.addEventListener('click', () => {
+    rotateDiv.addEventListener('click', () => {
         if (Player.shipPlace == 'Vertical'){
             Player.shipPlace = 'Horizontal';
             document.getElementById('rotateMessage').innerHTML = `Current Orientation: ${Player.shipPlace}` 
-            renderGhostShips(Player)
+            renderGhostShips(Player);
             return Player
         }
         else if(Player.shipPlace == 'Horizontal'){
@@ -37,6 +31,12 @@ export function shipPlacementSetup(Player) {
             return Player;
         }
     });
+    let rotateMessage = document.createElement('div');
+    rotateMessage.setAttribute('id', 'rotateMessage');
+    rotateMessage.innerHTML = `Current Orientation: ${Player.shipPlace}`
+    let rotateImg = document.createElement('img');
+    rotateImg.src = Rotate;
+    rotateImg.setAttribute('id', 'rotateIcon');
     rotateDiv.appendChild(rotateMessage);
     rotateDiv.appendChild(rotateImg);
     let shipMessage = document.createElement('div');
@@ -360,7 +360,7 @@ export function continueBtnListener() {
             else
                 placeComputerShips(Player2);
         }
-        addShipsOnOpponentBoard(window.player1, window.player2);       
+        addShipsOnOpponentBoard(window.player1, window.player2);
         startGame(window.player1, window.player2);
     }
 }

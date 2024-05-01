@@ -2,15 +2,21 @@
 import HumanPic from './icons/human.svg';
 import ComputerPic from './icons/robot.svg';
 import { whosTurn, checkForHitOrMiss, testMoveInHitOrMissList, checkGameOver } from './app';
-
+import { createPlayer } from './player';
+import { shipPlacementSetup } from './shipPlacement';
 // Hit Icon
 import Hit from './icons/nuclear-explosion.png';
 // Miss icon
 import Miss from './icons/water-splash.png';
 
+// pictures
+import Game from './pics/battleship-game.jpg';
+import Battle from './pics/battleship-real.jpg';
+
 // start game function
 import { buildHeaderandFooterDom, makeBoardDom } from './app';
 import { checkForComputerMove } from './computerAI';
+import { createBoard } from './ship';
 
 export function homepageDom() {
     // Add Icon images
@@ -20,6 +26,10 @@ export function homepageDom() {
     const computerPic = document.getElementsByClassName('computerPic');
     for (let i=0; i<computerPic.length; i++)
         computerPic[i].src = ComputerPic;
+
+    // Add pictures
+    document.getElementById('topPic').src = Game;
+    document.getElementById('bottomPic').src = Battle;
 
     // Make radio divs entirely clickable
     let pvp = document.getElementById('pvpDiv');
@@ -38,8 +48,24 @@ export function homepageDom() {
     // onclick for start game button
     let playButton = document.getElementById('playButton');
     playButton.addEventListener('click', () => {
+        let player1Name = document.getElementById('playerNameInput').value;
+        let player1Type = "human";
+        let Gameboard1 = createBoard();
+        Gameboard1.createSquares();
+        window.player1 = createPlayer(player1Type, player1Name, 1);
+        if (document.getElementById('computer').checked == true){
+            let name = document.getElementById('playerNameInput2').value
+            let Gameboard2 = createBoard();
+            Gameboard2.createSquares();
+            window.player2 = createPlayer('computer', name, 2);
+        } else if (document.getElementById('human').checked == true){
+            let name = document.getElementById('playerNameInput2').value
+            let Gameboard2 = createBoard();
+            Gameboard2.createSquares();
+            window.player2 = createPlayer('human', name, 2); 
+        }
         document.body.innerHTML = "";
-        buildBoardDom(Player1, Player2);
+        shipPlacementSetup(window.player1, window.player2);
     })
 }
 
@@ -63,10 +89,18 @@ export function addNextButton(Player1, Player2) {
         nextBtn.remove();
         // dont execute below until next button is clicked
         whosTurn(Player1, Player2);
-        makeBoardDom(Player2);
-        // If its time for computer to move, do so
+        if (Player1.turn == true){
+            makeBoardDom(Player1);
+            squareEventlistener(Player1, Player2);
+        } else if (Player2.turn == true){
+            makeBoardDom(Player2);
+            if (Player2.type == 'computer')
+                checkForComputerMove(Player1, Player2);
+            else if (Player2.type == 'human')
+                squareEventlistener(Player1, Player2);
+        }
+
         checkForComputerMove(Player1, Player2);   
-        squareEventlistener(Player1, Player2);
     })
     header.insertBefore(nextBtn, document.getElementById('player2score'));
 }
@@ -111,7 +145,6 @@ export function squareEventlistener(Player1, Player2) {
                     Player1.turn = false;
                     checkGameOver(Player1);
                     addNextButton(Player1, Player2);
-   
                 })
             } else if (Player2.turn == true) {
                 document.getElementById(`${i}, ${j}`).addEventListener('click', () => {

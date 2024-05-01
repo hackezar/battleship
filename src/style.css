@@ -1,3 +1,13 @@
+/*variable*/
+:root{
+  --shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+  --color1: #0f5e9c;
+  --color2: #2389da;
+  --color3: 	#1ca3ec;
+  --color4: #5abcd8;
+  --color5: 	#74ccf4;
+}
+
 body,
 html {
   height: 100%;
@@ -17,6 +27,7 @@ html {
   justify-content: space-around;
   align-items: center;
   height: 15vh;
+  background-color: var(--color3);
 }
 
 .scoreHeader {
@@ -30,6 +41,7 @@ html {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  background-color: var(--color3);
 
 }
 
@@ -54,11 +66,12 @@ html {
 #boardContainer {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(10, calc((100% - 10px) / 10));
-  grid-template-rows: repeat(10, calc((100% - 10px) / 10));
-  border: solid 1px black;
-  background-color: black;
-  gap: 1px;
+  height: 80vh;
+  grid-template-columns: repeat(10, calc((100% - 100px) / 10));
+  grid-template-rows: repeat(10, calc((100% - 100px) / 10));
+  background-color: var(--color3);
+  grid-gap: 10px;
+  padding: 0 10rem;
 }
 
 .grid-cell {
@@ -66,14 +79,23 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color5);
+  font-weight: 600;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 3px solid black;
 }
 
 .grid-cell:hover {
   cursor: pointer;
+  background-color: var(--color1);
+  color: white;
 }
 
 .yourTurn {
-  border: 1px solid black;
+  border: 3px solid black;
+  box-shadow: var(--shadow);
+  background-color: var(--color5);
   padding: 2rem;
 }
 
@@ -82,12 +104,17 @@ html {
   width: 50px;
 }
 
+.shipIcon {
+  height: 2rem;
+}
+
 /*The Following is for the ship placement page*/
 #shipSetupContainer {
   height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
+  background-color: var(--color3);
 }
 
 .shipSetup {
@@ -95,7 +122,6 @@ html {
   display: grid;
   grid-template-columns: repeat(10, calc((100% - 10px) / 10));
   grid-template-rows: repeat(10, calc((100% - 10px) / 10));
-  border: solid 1px black;
   background-color: black;
   gap: 1px;
 }
@@ -106,16 +132,32 @@ html {
   align-items: center;
 }
 
+#setupHeader > div {
+  padding: 1rem;
+  border: 1px solid var(--color2);
+  background-color: var(--color2);
+  font-size: 1.5rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
 #rotateDiv:hover {
   cursor: pointer;
 }
 
+#rotateIcon {
+  height: 3rem;
+}
+
 
 #shipPlaceFooter {
-  height: 15vh;
+  height: 5vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  padding-bottom: 1rem;
 }
 
 .shipSetupBtn {
@@ -126,4 +168,8 @@ html {
   width: 10rem;
   border: 1px solid black;
   border-radius: 2rem;
+  background-color: var(--color5);
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
 }

@@ -7,56 +7,58 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script defer src="bundle.js"></script></head>
 <body>
-    <div id="header">
-        <div id="title">Battleship</div>
-    </div>
+    <div id="topPic" class="backgroundImg"></div>
+    <div id="startPageContainer">
+        <div id="header">
+            <div id="title">Battleship</div>
+        </div>
+        <div id='container'>
+            <div class="gameModeDiv">
+                <div class="radioDiv" id="pveDiv">
+                    <input type="radio" id="computer" name="radioBtns" checked>
+                    Player vs. Computer
+                    <div class="icons">
+                        <img class="humanPic">
+                        <img class="computerPic">
+                    </div>
+                </div>
 
-
-    <div id='container'>
-        <div class="gameModeDiv">
-            <div class="radioDiv" id="pveDiv">
-                <input type="radio" id="computer" name="radioBtns" checked>
-                Player vs. Computer
-                <div class="icons">
-                    <img class="humanPic">
-                    <img class="computerPic">
+                <div class="radioDiv" id="pvpDiv">
+                    <input type="radio" id="human" name="radioBtns">
+                    Player vs. Player
+                    <div class="icons">
+                        <img class="humanPic">
+                        <img class="humanPic">
+                    </div>
                 </div>
             </div>
 
-            <div class="radioDiv" id="pvpDiv">
-                <input type="radio" id="human" name="radioBtns">
-                Player vs. Player
-                <div class="icons">
-                    <img class="humanPic">
-                    <img class="humanPic">
-                </div>
+            <div class="forms">
+                <form id="pvpForm" class="form">
+                    <legend>Settings</legend>
+                    <label for="playerNameInput"> Player Name: 
+                        <input type="text" id="playerNameInput" name="playerNameInput"/>
+                    </label>
+                    <button type="button" id="playButton">Play</button>
+                </form>
+        
+                <form id="pveForm" class="form hidden">
+                    <legend>Settings</legend>
+                    <label for="playerNameInput"> 1st Player Name: 
+                        <input type="text" id="playerNameInput1" name="playerNameInput"/>
+                    </label>
+                    <label for="playerNameInput"> 2nd Player Name: 
+                        <input type="text" id="playerNameInput2" name="playerNameInput"/>
+                    </label>
+                    <button type="button" id="playButton">Play</button>
+                </form>
             </div>
         </div>
 
-        <div class="forms">
-            <form id="pvpForm" class="form">
-                <legend>Settings</legend>
-                <label for="playerNameInput"> Player Name: 
-                    <input type="text" id="playerNameInput" name="playerNameInput"/>
-                </label>
-                <button type="button" id="playButton">Play</button>
-            </form>
-    
-            <form id="pveForm" class="form hidden">
-                <legend>Settings</legend>
-                <label for="playerNameInput"> 1st Player Name: 
-                    <input type="text" id="playerNameInput" name="playerNameInput"/>
-                </label>
-                <label for="playerNameInput"> 2nd Player Name: 
-                    <input type="text" id="playerNameInput" name="playerNameInput"/>
-                </label>
-                <button type="button" id="playButton">Play</button>
-            </form>
+        <div id="footer">
+            <div>Created by Jack Halcisak</div>
         </div>
     </div>
-
-    <div id="footer">
-        <div>Created by Jack Halcisak</div>
-    </div>
+    <div id="bottomPic" class="backgroundImg"></div>
 </body>
 </html>

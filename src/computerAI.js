@@ -1,4 +1,4 @@
-import { squareEventlistener, displayGameOverDom, updateShipsLeft } from "./dom";
+import { squareEventlistener, displayGameOverDom, updateShipsLeft, addNextButton } from "./dom";
 import { testMoveInHitOrMissList, checkGameOver, shipSunkData, getHitCoords, makeBoardDom, whosTurn } from "./app";
 import { selectAShipToPlace } from "./shipPlacement";
 
@@ -8,16 +8,19 @@ export function makeRandomPick(Computer, Player) {
         let randomY = Math.floor(Math.random() * 10);
         // make sure random coords are not in the hit or miss arrays
         if (testMoveInHitOrMissList(randomX, randomY, Computer) == false) {
+            console.log(Player);
+            console.log(window.player1);
             Player.board.receiveAttack(randomX, randomY, Computer);
             updateShipsLeft(Computer);
+            whosTurn(Player, Computer);
             // switch turn variables after move has been made
             Computer.turn = false;
             Player.turn = true;
+            sessionStorage.setItem('player1', JSON.stringify(window.player1));
+            sessionStorage.setItem('player2', JSON.stringify(window.player2));
             checkGameOver(Computer);
-            whosTurn(Player, Computer);
-            makeBoardDom(Player);
-            squareEventlistener(Player, Computer); 
-            return Player, Computer;
+            makeBoardDom(Computer);
+            addNextButton(Player, Computer);
         } else if (testMoveInHitOrMissList(randomX, randomY, Computer) == true) {
             makeRandomPick(Computer, Player);
         }
@@ -88,10 +91,12 @@ export function computerMove(Computer, Player) {
                             // Switch whos turn it is
                             Computer.turn = false;
                             Player.turn = true;
+                            sessionStorage.setItem('player1', JSON.stringify(window.player1));
+                            sessionStorage.setItem('player2', JSON.stringify(window.player2));
                             checkGameOver(Computer);
                             whosTurn(Player, Computer);
-                            makeBoardDom(Player);
-                            squareEventlistener(Player, Computer);
+                            makeBoardDom(Computer);
+                            addNextButton(Player, Computer);
                             // break while loop
                             return;
                         }
@@ -151,8 +156,9 @@ export function placeComputerShips(Computer) {
                 if (testIfSpaceOccupied(Computer, xCoord, yCoord, ship, Computer.shipPlace) == false){
                     Computer.board = Computer.board.placeShip(ship.length, xCoord, yCoord, Computer.shipPlace, ship.title);
                 }
-                else
+                else{
                     getRandomCoords();
+                }
             }
         }
     }

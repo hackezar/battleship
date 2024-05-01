@@ -5,6 +5,7 @@ import { addHitIcon, getShipsLeft, squareEventlistener } from "./dom";
 import Hit from './icons/nuclear-explosion.png';
 import Miss from './icons/water-splash.png';
 import { checkForComputerMove } from "./computerAI";
+import { addShipImg } from "./shipPlacement";
 
 export function buildHeaderandFooterDom(Player1, Player2) {
     // layout
@@ -91,6 +92,7 @@ export function checkForHitOrMiss(Player) {
 };
 
 export function makeBoardDom(Player) {
+    console.log(Player);
     let container = document.getElementById('boardContainer');
     container.innerHTML = "";
     for (let i=0; i< 10; i++) {
@@ -101,6 +103,13 @@ export function makeBoardDom(Player) {
             node.innerHTML = `${i} , ${j}`
             // event listener for square
             container.appendChild(node);
+            if (Player.type == 'computer'){
+                let index = Player.board.getSquareIndex(i, j);
+                if (window.player1.board.board[index].occupied != false){
+                    addShipImg(i, j);
+                }
+            }
+
         }
     }
     checkForHitOrMiss(Player);
@@ -214,9 +223,12 @@ export function shipSunkData(Player, shipName) {
 }
 
 export function startGame(Player1, Player2){
+    console.log(Player1);
+    console.log(Player2);
     document.body.innerHTML = "";
     buildHeaderandFooterDom(Player1, Player2);
-    makeBoardDom(whosTurn(Player1, Player2));
+    whosTurn(Player1, Player2)
+    makeBoardDom(Player1, Player2);
     console.log(Player1, Player2);
     //square event listeners for game
     squareEventlistener(Player1, Player2);
