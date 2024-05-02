@@ -50,17 +50,19 @@ html {
 }
 
 #nextBtn {
-  height: 2rem;
-  width: 8rem;
-  border: 1px solid black;
+  height: 4rem;
+  width: 16rem;
+  border: 5px solid black;
   border-radius: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var();
 }
 
 #nextBtn:hover {
   cursor: pointer;
+  background-color: var(--color5);
 }
 
 #boardContainer {
@@ -172,4 +174,9 @@ html {
   font-size: 1.2rem;
   font-weight: 600;
   box-shadow: var(--shadow);
+}
+
+.shipSetupBtn:hover {
+  cursor: pointer;
+  background-color: var(--color4);
 }

@@ -31,6 +31,8 @@ module.exports = {
   ],
   entry: {
     index: './src/index.js',
+    shipPlacement: './src/shipPlacement.js',
+    app: './src/app.js',
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -39,7 +41,7 @@ module.exports = {
     liveReload: false,
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   optimization: {

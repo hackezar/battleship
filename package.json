@@ -4,9 +4,11 @@
   "description": "A template for new projects. This template contains webpack, eslist, and prettier",
   "private": true,
   "scripts": {
+    "build": "webpack --mode production",
     "test": "jest",
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "watch": "npx webpack --watch",
     "start": "webpack serve --open"
@@ -39,5 +41,10 @@
     "css": "^3.0.0",
     "loader": "^2.1.1",
     "lodash": "^4.17.21"
+  },
+  "homepage": "http://hackezar.github.io/battleship",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hackezar/battleship.git"
   }
 }
