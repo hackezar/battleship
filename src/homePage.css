@@ -104,3 +104,7 @@ height: 3rem;
 #bottomPic {
     padding-bottom: 1rem;
 }
+
+.homepagePics {
+    box-shadow: var(--shadow);
+}
